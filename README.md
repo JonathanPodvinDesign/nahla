@@ -1,95 +1,180 @@
 # NAHLA
 
-**Nahla** est une application mobile de gestion du temps d'ecran gamifiee pour les familles. Elle transforme les negociations en un systeme clair: les enfants gagnent des Coins en accomplissant leurs taches, puis depensent ces Coins pour acheter du temps de jeu.
+**Nahla** est une application mobile de gestion du temps d’écran gamifiée pour les familles. Elle transforme les négociations en un système clair : les enfants gagnent des Coins en accomplissant leurs tâches, puis dépensent ces Coins pour acheter du temps de jeu.
 
-> Ce depot est volontairement minimal: il sert de vitrine produit. Le code source reste prive.
+> Ce dépôt est volontairement minimal : il sert de vitrine produit. Le code source reste privé.
 
 ---
 
-**Le probleme**
+**Le problème**
 
-Les parents passent un temps enorme a negocier et repeter les memes consignes. Les enfants percoivent les limites d'ecran comme un blocage injuste. Le resultat: tension quotidienne, perte de temps, et peu d'apprentissage de l'autonomie.
+Les parents passent un temps énorme à négocier et répéter les mêmes consignes. Les enfants perçoivent les limites d’écran comme un blocage injuste. Le résultat : tension quotidienne, perte de temps, et peu d’apprentissage de l’autonomie.
 
 **La solution**
 
 Nahla remplace la contrainte par un contrat simple et visible.
 
-- Les taches du quotidien rapportent des Coins.
-- Le temps d'ecran a un cout en Coins.
-- Chaque enfant a son profil, son solde, et ses regles.
+- Les tâches du quotidien rapportent des Coins.
+- Le temps d’écran a un coût en Coins.
+- Chaque enfant a son profil, son solde, et ses règles.
 - Les parents valident en quelques secondes.
 
 ---
 
-**Ce qui rend Nahla speciale**
+**Ce qui rend Nahla spéciale**
 
-- Responsabilisation vs blocage: l'enfant "achete" son temps.
-- Simplicite parentale: validation en 30 secondes.
-- Gamification masquee: des Coins, pas des minutes.
-- Multi-enfants equitable: chacun son profil et ses regles.
-- Concue par un utilisateur: un parent qui vit le probleme.
+- Responsabilisation vs blocage : l’enfant “achète” son temps.
+- Simplicité parentale : validation en 30 secondes.
+- Gamification masquée : des Coins, pas des minutes.
+- Multi-enfants équitable : chacun son profil et ses règles.
+- Conçue par un utilisateur : un parent qui vit le problème.
 
 ---
 
-**Fonctionnalites cle**
+**Fonctionnalités clés**
 
-- Profils enfants avec soldes en temps reel.
-- Catalogue de taches et malus, predefinis et personnalisables.
-- Recurrence et coefficients pour equilibrer effort et recompense.
+- Profils enfants avec soldes en temps réel.
+- Catalogue de tâches et malus, prédéfinis et personnalisables.
+- Récurrence et coefficients pour équilibrer effort et récompense.
 - Timer de jeu avec alertes (5 min, 1 min) et fin claire.
-- Limites journaliere et conversion Coins -> minutes.
+- Limites journalières et conversion Coins -> minutes.
 - Synchronisation multi-device entre parents.
 
 ---
 
-**MVP (perimetre)**
+**MVP (périmètre)**
 
-- Gestion des enfants: profils, soldes, plafonds, coins negatifs.
-- Systeme de taches: recurrence, coefficients, validation rapide.
-- Systeme de malus: retrait de Coins, possible negatif.
-- Timer de jeu: cout avant validation, notifications locales, pas de pause.
-- Configuration famille: compte partage, sync temps reel.
+- Gestion des enfants : profils, soldes, plafonds, coins négatifs.
+- Système de tâches : récurrence, coefficients, validation rapide.
+- Système de malus : retrait de Coins, possible négatif.
+- Timer de jeu : coût avant validation, notifications locales, pas de pause.
+- Configuration famille : compte partagé, sync temps réel.
 
 ---
 
-**Objectifs d'impact**
+**Objectifs d’impact**
 
-- Diminuer fortement les repetitions parentales.
-- Reduire le temps perdu en negociations.
-- Ameliorer l'initiative des enfants.
-- Maintenir un equilibre de Coins (ni trop, ni trop peu).
+- Diminuer fortement les répétitions parentales.
+- Réduire le temps perdu en négociations.
+- Améliorer l’initiative des enfants.
+- Maintenir un équilibre de Coins (ni trop, ni trop peu).
 
 ---
 
 **Architecture et stack**
 
-- Mobile: React Native.
-- Backend: NestJS.
-- Base de donnees: PostgreSQL.
-- Infra: Docker.
-- Architecture: DDD / Hexagonale.
-- Methode: TDD.
+- Mobile : React Native.
+- Backend : NestJS.
+- Base de données : PostgreSQL.
+- Infra : Docker.
+- Architecture : DDD / Hexagonale.
+- Méthode : TDD.
 
 ---
 
-**Mon role**
+**Structure du monorepo (détaillée)**
 
-Projet concu et developpe par un parent developpeur, avec une approche produit tres terrain: partir d'un probleme vecu, prototyper vite, puis stabiliser l'usage au quotidien.
+```text
+.
+├── nahla-api/                         # Backend NestJS (DDD/Hexa)
+│   ├── src/
+│   │   ├── modules/
+│   │   │   ├── auth/
+│   │   │   │   ├── application/
+│   │   │   │   ├── domain/
+│   │   │   │   ├── infrastructure/
+│   │   │   │   └── interfaces/
+│   │   │   ├── child/                 # Enfants
+│   │   │   ├── family/                # Famille/compte partagé
+│   │   │   ├── task/                  # Tâches
+│   │   │   ├── malus/                 # Malus
+│   │   │   ├── timer/                 # Sessions de jeu
+│   │   │   ├── settings/              # Paramètres
+│   │   │   └── realtime/              # Sync temps réel (WebSocket)
+│   │   └── shared/
+│   │       ├── events/
+│   │       ├── infrastructure/
+│   │       ├── presentation/
+│   │       └── services/
+│   ├── test/                           # Tests e2e
+│   └── coverage/                       # Rapport de couverture Jest
+│
+├── nahla-mobile/                       # App mobile (Expo + React Native)
+│   ├── app/                            # Routing Expo Router
+│   │   ├── (auth)/
+│   │   └── (app)/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── child/
+│   │   │   ├── task/
+│   │   │   ├── timer/
+│   │   │   └── ui/
+│   │   ├── constants/                  # Design system
+│   │   ├── contexts/
+│   │   ├── hooks/
+│   │   ├── schemas/                    # Validation Zod
+│   │   ├── services/
+│   │   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   ├── notifications/
+│   │   │   ├── storage/
+│   │   │   └── websocket/
+│   │   ├── stores/                     # State management (Zustand)
+│   │   ├── types/
+│   │   └── utils/
+│   ├── assets/
+│   └── coverage/                       # Rapport de couverture Jest
+│
+└── nahla-postgres/                      # Base PostgreSQL (Docker)
+```
+
+---
+
+**Backend (Nahla API)**
+
+- Architecture DDD/Hexa par module : `domain` (entités, value objects), `application` (use cases), `infrastructure` (persistence, adapters), `interfaces` (HTTP/WS).
+- Bounded contexts isolés par feature (auth, enfants, tâches, malus, timer, settings, realtime).
+- WebSocket pour la synchronisation multi-parents en temps réel.
+- Migrations et seeds TypeORM.
+
+---
+
+**Mobile (Nahla App)**
+
+- Expo Router pour la navigation.
+- Design system interne (thème, tokens, spacing).
+- State management avec Zustand + data fetching avec React Query.
+- Validation des formulaires via Zod.
+- Notifications locales (timer).
+
+---
+
+**Tests et qualité**
+
+- Backend : Jest (unit + integration), e2e sous `test/`, couverture générée dans `nahla-api/coverage/`.
+- Mobile : Jest + Testing Library, couverture dans `nahla-mobile/coverage/`.
+- Lint, format, typecheck dans chaque app.
+
+---
+
+**Mon rôle**
+
+Projet conçu et développé par un parent développeur, avec une approche produit très terrain : partir d’un problème vécu, prototyper vite, puis stabiliser l’usage au quotidien.
 
 ---
 
 **Statut**
 
-MVP en cours d'evolution, teste en situation familiale reelle. Les iterations priorisent la stabilite, la simplicite, et l'impact comportemental.
+MVP en cours d’évolution, testé en situation familiale réelle. Les itérations priorisent la stabilité, la simplicité, et l’impact comportemental.
 
 ---
 
-**Confidentialite**
+**Confidentialité**
 
-Ce repo ne contient pas de code ni de donnees sensibles. Il permet de presenter la vision, la logique produit et la trajectoire du projet sans exposer l'implementation.
+Ce repo ne contient pas de code ni de données sensibles. Il permet de présenter la vision, la logique produit et la trajectoire du projet sans exposer l’implémentation.
 
 ---
 
 **Contact**
 
-Si vous souhaitez une demo ou des details techniques, je peux les partager sur demande.
+Si vous souhaitez une démo ou des détails techniques, je peux les partager sur demande.
