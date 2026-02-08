@@ -157,6 +157,18 @@ Nahla remplace la contrainte par un contrat simple et visible.
 
 ---
 
+**Sécurité (aperçu)**
+
+- Authentification via JWT (access + refresh) côté API.
+- Hashage des mots de passe avec `bcrypt`.
+- Validation stricte des payloads (DTO + class-validator).
+- Rate limiting via `@nestjs/throttler`.
+- Sécurisation HTTP (headers) avec `helmet`.
+- Stockage sécurisé des tokens côté mobile (Expo Secure Store).
+- Pas de données enfant directes exposées dans l’app.
+
+---
+
 **Mon rôle**
 
 Projet conçu et développé par un parent développeur, avec une approche produit très terrain : partir d’un problème vécu, prototyper vite, puis stabiliser l’usage au quotidien.
