@@ -1,0 +1,6 @@
+# Ignore everything in this showcase repo...
+*
+
+# ...except this README and the .gitignore itself.
+!.gitignore
+!README.md
